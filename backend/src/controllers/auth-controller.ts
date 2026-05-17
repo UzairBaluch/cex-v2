@@ -34,7 +34,7 @@ export async function signup(req: Request, res: Response): Promise<void> {
 }
 
 export async function signin(req: Request, res: Response): Promise<void> {
-  //TODO: Implement signin logic
+
   try {
     const result = authSchema.safeParse(req.body);
 
