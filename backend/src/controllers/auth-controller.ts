@@ -29,12 +29,13 @@ export async function signup(req: Request, res: Response): Promise<void> {
       username: user.username,
     });
   } catch {
+   
     res.status(409).json({ error: "username already exists" });
+   
   }
 }
 
 export async function signin(req: Request, res: Response): Promise<void> {
-
   try {
     const result = authSchema.safeParse(req.body);
 
