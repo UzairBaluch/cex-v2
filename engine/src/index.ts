@@ -23,13 +23,19 @@ export interface EngineResponse {
   error?: string;
 }
 
-const brokerClient = createClient({ url: env.redisUrl }).on("error", (error) => {
-  console.error("Redis broker client error", error);
-});
+const brokerClient = createClient({ url: env.redisUrl }).on(
+  "error",
+  (error) => {
+    console.error("Redis broker client error", error);
+  },
+);
 
-const responseClient = createClient({ url: env.redisUrl }).on("error", (error) => {
-  console.error("Redis response client error", error);
-});
+const responseClient = createClient({ url: env.redisUrl }).on(
+  "error",
+  (error) => {
+    console.error("Redis response client error", error);
+  },
+);
 
 await Promise.all([brokerClient.connect(), responseClient.connect()]);
 
@@ -46,7 +52,10 @@ const DUMMY_SELL_ORDER = {
   status: "open",
 };
 
-async function sendResponse(responseQueue: string, response: EngineResponse): Promise<void> {
+async function sendResponse(
+  responseQueue: string,
+  response: EngineResponse,
+): Promise<void> {
   await responseClient.lPush(responseQueue, JSON.stringify(response));
 }
 
@@ -65,6 +74,23 @@ function handleEngineRequest(message: EngineRequest): unknown {
    * - get_order
    * - cancel_order
    */
+
+  switch (message.type) {
+    case "create_order":
+      const payload = message.payload
+      
+      break;
+    case "get_order":
+      break;
+    case "get_user_balance":
+      break;
+    case "get_depth":
+      break;
+    case "cancel_order":
+      break;
+    default:
+      break;
+  }
 
   // just checking the flow, remove this when you start implementing the logic
   if (message.type === "create_order") {
